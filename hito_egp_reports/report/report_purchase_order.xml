@@ -1,0 +1,315 @@
+<odoo>
+    <data>
+        <!-- CUSTOM HEADER -->
+         <template id="inherit_custom_header_purchaseorder" inherit_id="l10n_ar_purchase.custom_header_purchaseorder">
+             <xpath expr="//div" position="replace">
+                 <t t-if="o and o._name == 'purchase.order'">
+                    <div class="row" style="font-family:sans-serif">
+                        <div class="col-2">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="width:120px;"/>
+                        </div>
+                        <div class="col-6 text-start">
+                            <div t-field="company.partner_id.name" style="font-weight:bold; font-size: 18px;"/>
+                            <div t-field="company.partner_id.street" style="font-size: 12px;"/>
+                            <div t-field="company.partner_id.phone" style="font-size: 12px;"/>
+                            <div t-field="company.partner_id.email" style="font-size: 12px;"/>
+                            <div t-field="company.partner_id.website" style="font-size: 12px;"/>
+                        </div>
+                        <div class="col-4">
+                            <div name="pager" t-if="report_type == 'pdf'" style="text-align: end;">
+                                Página: (<span class="page"/> / <span class="topage"/>)
+                            </div>
+                        </div>
+                    </div>
+                 </t>
+                 <t t-else="">
+                     <div class="mb-3">
+                        <div class="row mb-2">
+                            <div name="left-upper-side" class="col-5" t-if="not pre_printed_report">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 65px;" alt="Logo"/>
+                            </div>
+                            <div name="center-upper" class="col-2 text-center" t-att-style="'color: %s;' % o.company_id.primary_color">
+                                <span style="display: inline-block; text-align: center; line-height: 8px;">
+                                    <h1 style="line-height: 35px;">
+                                        <strong><span t-out="not pre_printed_report and document_letter or '&#160;'"/></strong>
+                                    </h1>
+                                    <span style="font-size: x-small;" t-out="not pre_printed_report and document_legend or '&#160;'"/>
+                                </span>
+                            </div>
+                            <div name="right-upper-side" class="col-5 text-end" style="padding-left: 0px;" t-if="not pre_printed_report">
+
+                                <!-- (6) Titulo de Documento -->
+                                <h4 t-att-style="'color: %s;' % o.company_id.primary_color"><strong>
+                                    <span t-out="report_name"/>
+                                </strong></h4>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="padding-right: 0px;">
+                                <t t-if="not pre_printed_report">
+                                    <!-- (1) Nombre de Fantasia -->
+                                    <!-- (2) Apellido y Nombre o Razon Social -->
+                                    <span t-field="o.company_id.partner_id.name"/>
+
+                                    <!-- (3) Domicilio Comercial (Domicilio Fiscal is the same) -->
+                                    <br/>
+                                    <div></div>
+                                    <!-- we dont use the address widget as it adds a new line on the phone and we want to reduce at maximum lines qty -->
+                                    <t t-out="' - '.join([item for item in [
+                                        ', '.join([item for item in [header_address.street, header_address.street2] if item]),
+                                        header_address.city,
+                                        header_address.state_id and header_address.state_id.name,
+                                        header_address.zip,
+                                        header_address.country_id and header_address.country_id.name] if item])"/><span t-if="header_address.phone"> - </span><span t-if="header_address.phone" style="white-space: nowrap;" t-out="'Tel: ' + header_address.phone"/>
+                                    <br/>
+                                    <span t-att-style="'color: %s;' % o.company_id.primary_color" t-out="' - '.join([item for item in [(header_address.website or '').replace('https://', '').replace('http://', ''), header_address.email] if item])"/>
+                                </t>
+                            </div>
+                            <div class="col-6 text-end" style="padding-left: 0px;">
+
+                                <t t-if="not pre_printed_report">
+                                    <!-- (7) Numero punto venta - (8) numero de documento -->
+                                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Nro: </span><span t-out="report_number"/>
+                                </t>
+                                <br/>
+
+                                <!-- (9) Fecha -->
+                                <t t-if="o.state in ['purchase', 'done']">
+                                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Approve date: </span>
+                                </t>
+                                <t t-else="">
+                                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Date due: </span>
+                                </t>
+
+                                <t t-if="not pre_printed_report">
+                                    <!-- (5) Condicion de IVA / Responsabilidad -->
+                                    <!-- (10) CUIT -->
+                                    <br/>
+                                    <span t-field="o.company_id.l10n_ar_afip_responsibility_type_id"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - CUIT: </span><span t-field="o.company_id.partner_id.l10n_ar_formatted_vat"/>
+
+                                    <!-- (11) IIBB: -->
+                                    <!-- (12) Inicio de actividades -->
+                                    <br/><span t-att-style="'color: %s;' % o.company_id.secondary_color">IIBB: </span><span t-out="o.company_id.l10n_ar_gross_income_type == 'exempt' and 'Exento' or o.company_id.l10n_ar_gross_income_number"/><span t-att-style="'color: %s;' % o.company_id.secondary_color"> - Activities Start: </span><span t-field="o.company_id.l10n_ar_afip_start_date"/>
+                                </t>
+
+                            </div>
+                        </div>
+                    </div>
+                 </t>
+             </xpath>
+         </template>
+
+        <!-- REPORTE COTIZACION COMPRA -->
+        <template id="report_purchaseorder_custom"  priority="21" inherit_id="purchase.report_purchaseorder_document">
+            <xpath expr="//div[@class='page']" position="replace">
+                <div class="page" style="font-family:sans-serif;">
+                    <div class="oe_structure"/>
+
+                    <div class="m-0">
+                        <t t-set="layout_document_title">
+                            <t t-if="o.state in ['draft', 'sent', 'to approve']">Request for Quotation #<span t-field="o.name"/></t>
+                            <t t-if="o.state in ['purchase', 'done']">Purchase Order #<span t-field="o.name"/></t>
+                            <t t-if="o.state == 'cancel'">Cancelled Purchase Order #<span t-field="o.name"/></t>
+                        </t>
+                    </div>
+
+                    <div id="informations"/>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="col-6 p-3" style="border-radius: 5px !important; border-color: black !important; border: 1px solid;">
+                            <strong>Sres. <t t-esc="o.partner_id.name"/></strong><br/>
+                            At.:<br/>
+                            <t t-esc="o.partner_id.street"/><br/>
+                            <t t-esc="o.partner_id.city"/> <br/>
+                            Teléfono <t t-esc="o.partner_id.phone"/> <br/>
+                            Email <t t-esc="o.partner_id.email"/> <br/>
+                        </div>
+                        <div class="col-6 text-start p-3" style="border-radius: 5px !important; border-color: black !important; border: 1px solid;">
+                            <t t-if="o.state in ['purchase', 'done']">
+                                <strong>Nota de Pedido Compra: <t t-esc="o.name[1:]"/></strong>
+                            </t>
+                            <t t-if="o.state in ['draft', 'sent', 'to approve']">
+                                 <strong>Solicitud de Pedido de Compra: <t t-esc="o.name[1:]"/></strong>
+                            </t>
+                            <t t-if="o.state == 'cancel'">
+                                <strong>Nota de Pedido Compra:: <t t-esc="o.name[1:]"/></strong>
+                            </t>
+                            <br/>
+                            <br/>
+                            <t t-set="meses" t-value="{
+                              'January': 'Enero', 'February': 'Febrero', 'March': 'Marzo',
+                              'April': 'Abril', 'May': 'Mayo', 'June': 'Junio',
+                              'July': 'Julio', 'August': 'Agosto', 'September': 'Septiembre',
+                              'October': 'Octubre', 'November': 'Noviembre', 'December': 'Diciembre',
+                              'enero': 'Enero','febrero': 'Febrero','marzo': 'Marzo','abril': 'Abril',
+                              'mayo': 'Mayo','junio': 'Junio','julio': 'Julio','agosto': 'Agosto',
+                              'septiembre': 'Septiembre','octubre': 'Octubre','noviembre': 'Noviembre',
+                              'diciembre': 'Diciembre',
+                            }"/>
+                            <t t-set="mes" t-value="meses[o.date_order.strftime('%B')]"/>
+                            <t t-esc="o.date_order.strftime('%d') + ' de ' + mes + ' de ' + o.date_order.strftime('%Y')"/>
+                        </div>
+                    </div>
+
+                    <div style="font-family:sans-serif;">
+                        <table class="o_has_total_table table o_main_table table-borderless" style="border-collapse: separate; border-spacing: 0 8px; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <div class="row border" style="width:100%; display:inline-block;  border-radius:6px;">
+                                        <strong><span>Cant.</span></strong>
+                                        <strong><span style="margin-left: 30px;">Código</span></strong>
+                                        <strong><span style="margin-left: 250px;">Descripción</span></strong>
+                                        <strong><span style="margin-left: 180px;">Unit.</span></strong>
+                                        <strong><span style="margin-left: 100px;">Total</span></strong>
+                                    </div>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="current_subtotal" t-value="0"/>
+
+                                <t t-foreach="o.order_line" t-as="line">
+
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
+
+                                    <tr t-att-class="'fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''" style="font-size: 12px; page-break-inside: avoid;">
+                                        <t t-if="not line.display_type">
+                                            <td class="text-end" style="width: 4% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
+                                                <span t-field="line.product_qty"/>
+                                            </td>
+
+                                            <td id="td_code" class="text-start" style="width: 13% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
+                                                <span t-field="line.product_id.default_code"/>
+                                            </td>
+
+                                            <td class="text-start" style="width: 68% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
+                                                <span t-if="line.product_id" t-esc="line.product_id.name[:101]"/>
+                                            </td>
+
+                                            <td class="text-end" style="width: 8% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
+                                                <span t-field="line.price_unit" style="margin-right:50px !important;" />
+                                            </td>
+
+                                            <td class="text-end" style="width: 7% !important; padding-top: 2px; padding-right: 2px; padding-bottom: 1px; line-height: 1;">
+                                                <span t-field="line.price_subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}' style="margin-right:50px !important;" />
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+                    <t t-set="base_address" t-value="o.env['ir.config_parameter'].sudo().get_param('web.base.url')"/>
+                    <t t-set="portal_url" t-value="base_address + '/my/purchase/' + str(o.id) + '#portal_connect_software_modal'"/>
+
+                    <div t-if="any(u._is_portal() for u in o.partner_id.user_ids)" class="text-center">
+                        <a t-att-href="portal_url">Connect your software</a> with <t t-out="o.company_id.name"/> to create quotes automatically.
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+
+        <!-- REPORTE DE l10n_ar_purchase -->
+
+         <!-- we force priority greater than 16 so that it dont break inheritance of report_saleorder_document_inherit_sale_stock. with this we are loosing the incoterm field added but that sale_stock view -->
+        <template id="l10n_ar_purchase.report_purchaseorder_document" priority="20" inherit_id="purchase.report_purchaseorder_document" primary="True">
+            <!-- custom header and footer -->
+            <t t-set="o" position="after">
+                <t t-set="custom_header" t-value="'l10n_ar_purchase.custom_header_purchaseorder'"/>
+                <t t-set="report_date" t-value="o.date_approve if o.date_approve else o.date_order"/>
+                <t t-set="report_number" t-value="o.name"/>
+                <!-- <t t-set="pre_printed_report" t-value="o.journal_id.l10n_ar_afip_pos_system == 'II_IM'"/> -->
+                <t t-set="document_letter" t-value="'X'"/>
+                <t t-set="document_legend">Invalid document as invoice</t>
+                <t t-set="report_name" t-if="o.state in ['draft', 'sent', 'to approve']">Request for Quotation</t>
+                <t t-set="report_name" t-if="o.state in ['purchase', 'done']">Purchase Order</t>
+                <t t-set="report_name" t-if="o.state == 'cancel'">Cancelled Purchase Order</t>
+
+                <t t-set="header_address" t-value="o.company_id.partner_id"/>
+
+                <t t-set="custom_footer">
+
+                   <div class="last-page">
+                        <div class="row last-page">
+                            <strong>Son: </strong><span t-out="o.currency_id.with_context(lang='es_AR').amount_to_text(o.amount_total)"/>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-8 p-1" style="border-radius: 5px !important; border-color: black !important; border: 1px solid; font-size: 14px; line-height: 1; font-family:sans-serif;">
+                                <div class="last-page">
+                                    <strong>Obs.:</strong>
+                                    <p t-field="o.notes"/>
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div class="col-4 p-1" style="border-radius: 5px !important; border-color: black !important; border: 1px solid;">
+                                 <div class="last-page">
+                                    <t t-set="subtotal_without_discounts" t-value="sum(line.price_unit * line.product_qty for line in o.order_line)"/>
+
+                                    <t t-set="total_bruto" t-value="sum(line.price_unit * line.product_qty for line in o.order_line)"/>
+                                    <t t-set="descuento_total_en_porcentaje" t-value="sum(line.discount * line.price_unit * line.product_qty for line in o.order_line) / total_bruto if total_bruto else 0"/>
+
+
+                                    <table class="o_total_table table table-borderless" style="font-size: 12px; line-height: 0.5; margin: 0; padding: 0;">
+                                        <t t-call="purchase.document_tax_totals">
+                                            <t t-set="tax_totals" t-value="o.tax_totals"/>
+                                            <t t-set="currency" t-value="o.currency_id"/>
+                                        </t>
+                                        <div class="row ps-2 pe-2">
+                                            <div class="col text-start">
+                                                <span style="font-size:12px !important;">Subtotal sin descuento</span>
+                                                <br/>
+                                                <span style="font-size:12px !important;">Descuentos</span>
+                                            </div>
+                                            <div class="col text-end">
+                                                <span style="font-size:12px;">$</span>
+                                                <span t-out="'{:,.2f}'.format(subtotal_without_discounts).replace(',', 'X').replace('.', ',').replace('X', '.')"
+                                                      style="font-size:12px;"/>
+                                                <br/>
+                                                <span t-out="'{:,.2f}'.format(descuento_total_en_porcentaje).replace('.', ',') + '%'" style="font-size:12px;"/>
+                                            </div>
+                                        </div>
+
+                                    </table>
+                                 </div>
+                            </div>
+                        </div>
+
+                   </div>
+                </t>
+            </t>
+
+            <!-- remove default partner address -->
+            <t t-set="address" position="replace"/>
+
+<!--             remove default document title -->
+            <t t-set='layout_document_title' position="replace">
+            </t>
+
+
+            <div id="informations" position="replace">
+               <div id="l10n_ar_informations">
+                   <t t-if="o.partner_ref">
+                               <!-- <br/><strong>Your Order Reference:</strong>
+                               <span t-field="o.partner_ref"/> -->
+                   </t>
+               </div>
+            </div>
+
+        </template>
+
+        <template id="l10n_ar_purchase_stock.report_purchaseorder_document" inherit_id="l10n_ar_purchase.report_purchaseorder_document">
+            <div>
+                <!-- vacio -->
+            </div>
+        </template>
+
+    </data>
+
+</odoo>

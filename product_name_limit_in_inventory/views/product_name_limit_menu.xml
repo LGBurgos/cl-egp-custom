@@ -1,0 +1,29 @@
+<odoo>
+    <record id="view_product_name_limit_form" model="ir.ui.view">
+        <field name="name">product.name.limit.settings.form</field>
+        <field name="model">product.name.limit.settings</field>
+        <field name="arch" type="xml">
+            <form string="Configuración de Nombre de Producto">
+                <group>
+                    <field name="product_name_char_limit"/>
+                </group>
+                <footer>
+                    <button string="Guardar" type="object" name="execute" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_name_limit_settings" model="ir.actions.act_window">
+        <field name="name">Límite de Nombre de Producto</field>
+        <field name="res_model">product.name.limit.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_product_name_limit_settings" name="Límite de Nombre de Producto"
+              parent="stock.menu_stock_config_settings"
+              action="action_product_name_limit_settings"
+              sequence="100"/>
+</odoo>

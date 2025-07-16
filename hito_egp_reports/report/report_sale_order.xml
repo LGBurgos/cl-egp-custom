@@ -1,0 +1,246 @@
+<odoo>
+  <!-- Herencia del reporte específico -->
+  <template id="report_saleorder_custom" inherit_id="sale.report_saleorder_document">
+      <xpath expr="//t[@t-call='web.external_layout']" position="attributes">
+          <attribute name="t-call">hito_egp_reports.custom_external_layout</attribute>
+      </xpath>
+
+       <xpath expr="//div[hasclass('page')]" position="replace">
+
+          <div class="page">
+
+            <t t-set="o" t-value="doc"/>
+            <!-- Is there a discount on at least one line? -->
+            <t t-set="lines_to_report" t-value="doc._get_order_lines_to_report()"/>
+            <t t-set="display_discount" t-value="any(l.discount for l in lines_to_report)"/>
+
+            <div class="oe_structure"/>
+              <div style="font-family:sans-serif;">
+                 <table class="o_has_total_table table o_main_table" style="border-collapse: separate; border-spacing: 0 4px; width: 100%;">
+
+                        <thead class="p-2">
+                            <tr>
+                                <div class="row border" style="width:100%; display:inline-block;  border-radius:6px;">
+                                    <strong><span style="margin-left: 15px;">Cant.</span></strong>
+                                    <strong><span style="margin-left: 45px;">Código</span></strong>
+                                    <strong><span style="margin-left: 245px;">Descripción</span></strong>
+                                    <strong><span style="margin-left: 290px;">Marca</span></strong>
+                                    <strong><span style="margin-left: 65px;">Plazo de entrega (Días)</span></strong>
+                                    <strong><span style="margin-left: 20px;">Unit.</span></strong>
+                                    <strong><span style="margin-left: 40px;">Total</span></strong>
+                                </div>
+                            </tr>
+                        </thead>
+
+                        <tbody class="sale_tbody">
+
+                            <t t-set="current_subtotal" t-value="0"/>
+
+                            <t t-foreach="lines_to_report" t-as="line">
+
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
+
+                                <tr t-att-class="'fw-bold o_line_section' if (line.display_type == 'line_section' or line.product_type == 'combo') else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''" style="font-size: 14px; page-break-inside: avoid;">
+                                    <t t-if="not line.display_type and line.product_type != 'combo'">
+                                        <td name="td_quantity" class="text-end" style="width: 4% !important; padding-top: 1px; padding-bottom: 1px; line-height: 1;">
+                                            <span t-field="line.product_uom_qty"/>
+                                        </td>
+
+                                        <td id="td_code" class="text-center" style="width: 13% !important; padding-top: 1px; padding-bottom: 1px; line-height: 1;">
+                                            <span t-field="line.product_id.default_code"/>
+                                        </td>
+
+                                        <td class="text-start" style="width: 46% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
+                                            <span t-if="line.product_id" t-esc="line.product_id.name[:101]"/>
+                                        </td>
+
+                                        <td name="td_marca" class="text-start" style="width: 10% !important; padding-top: 1px; padding-bottom: 1px; line-height: 1;">
+                                            <span t-field="line.product_brand_id.name"/>
+                                        </td>
+
+                                        <td name="td_delivery_time" class="text-center" style="width: 12% !important; padding-top: 1px; padding-bottom: 1px; line-height: 1;">
+                                            <span t-field="line.delivery_time"/>
+                                        </td>
+
+                                        <td name="td_priceunit" class="text-end" style="width: 8% !important; padding-top: 1px; padding-bottom: 1px; line-height: 1;">
+                                            <span t-field="line.price_unit"/>
+                                        </td>
+
+                                        <td name="td_subtotal" class="text-end o_price_total" style="width: 7% !important; padding-top: 1px; padding-bottom: 1px; line-height: 1;">
+                                            <span t-field="line.price_subtotal"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                </table>
+            </div>
+            <div class="footer">
+                 <div class="last-page">
+                    <div class="row last-page">
+                        <strong>Son: </strong><span t-out="o.currency_id.with_context(lang='es_AR').amount_to_text(o.amount_total)"/>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-8 p-1" style="border-radius: 5px !important; border-color: black !important; border: 1px solid; font-size: 14px; line-height: 1; font-family:sans-serif;">
+                            <div class="last-page">
+                                <strong>Obs.:</strong>
+                                <p t-field="o.note"/>
+                                <br/>
+                            </div>
+                        </div>
+
+                        <div class="col-4 p-1" style="border-radius: 5px !important; border-color: black !important; border: 1px solid;">
+                             <div class="last-page">
+                                <t t-set="subtotal_without_discounts" t-value="sum(line.price_unit * line.product_uom_qty for line in o.order_line)"/>
+
+                                <t t-set="total_bruto" t-value="sum(line.price_unit * line.product_uom_qty for line in o.order_line)"/>
+                                <t t-set="descuento_total_en_porcentaje" t-value="sum(line.discount * line.price_unit * line.product_uom_qty for line in o.order_line) / total_bruto if total_bruto else 0"/>
+
+
+                                <table class="o_total_table table table-borderless" style="font-size: 12px; line-height: 0.5; margin: 0; padding: 0;">
+                                    <t t-call="purchase.document_tax_totals">
+                                        <t t-set="tax_totals" t-value="o.tax_totals"/>
+                                        <t t-set="currency" t-value="o.currency_id"/>
+                                    </t>
+                                    <div class="row ps-2 pe-2">
+                                        <div class="col text-start">
+                                            <span style="font-size:12px !important;">Subtotal sin descuento</span>
+                                            <br/>
+                                            <span style="font-size:12px !important;">Descuentos</span>
+                                        </div>
+                                        <div class="col text-end">
+                                            <span style="font-size:12px;">$</span>
+                                            <span t-out="'{:,.2f}'.format(subtotal_without_discounts).replace(',', 'X').replace('.', ',').replace('X', '.')"
+                                                  style="font-size:12px;"/>
+                                            <br/>
+                                            <span t-out="'{:,.2f}'.format(descuento_total_en_porcentaje).replace('.', ',') + '%'" style="font-size:12px;"/>
+                                        </div>
+                                    </div>
+
+                                </table>
+                             </div>
+                        </div>
+                    </div>
+
+                 </div>
+            </div>
+        </div>
+      </xpath>
+
+  </template>
+
+  <!-- Layout personalizado -->
+  <template id="custom_external_layout">
+      <t t-if="not o" t-set="o" t-value="doc"/>
+      <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+      </t>
+      <t t-call="web.html_container">
+          <t t-call="hito_egp_reports.custom_external_layout_header"/>
+          <div class="article mb-0">
+            <t t-raw="0" class="mt-0 mb-0" />
+          </div>
+<!--          <t t-call="hito_egp_reports.custom_external_layout_footer"/>-->
+      </t>
+  </template>
+
+  <!-- Header personalizado -->
+ <template id="custom_external_layout_header">
+    <div class="header mb-1 pb-1">
+        <div class="row mb-1 pb-1" style="font-family:sans-serif; border-radius: 5px !important; border-color: black !important; border: 1px solid;">
+            <div class="col-1">
+                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="width:90px; margin-top:2px; margin-left:2px;"/>
+            </div>
+            <div class="col-3 text-start">
+                <div t-field="company.partner_id.name" style="font-weight:bold; font-size: 18px;"/>
+                <div t-field="company.partner_id.street" style="font-size: 12px;"/>
+                <div t-field="company.partner_id.phone" style="font-size: 12px;"/>
+                <div t-field="company.partner_id.email" style="font-size: 12px;"/>
+                <div t-field="company.partner_id.website" style="font-size: 12px;"/>
+            </div>
+            <div class="col-4 d-flex justify-content-center align-items-center">
+                <div class="mt-1" style="
+                    border: 1px solid black;
+                    border-radius: 12px;
+                    width: 70px;
+                    height: 100px;
+                    text-align: center;
+                    line-height: 100px;
+                    font-weight: bold;
+                    font-size: 40px;
+                    ">
+                  X
+                </div>
+            </div>
+            <div class="col-1">
+
+            </div>
+            <div class="col-3 mt-3" style="text-align: center; font-family: sans-serif; line-height: 1.2; font-size: 14px;">
+                <strong>
+                    <t t-if="o.state in ['sale']">
+                        <strong>NOTA DE PEDIDO N° <t t-esc="o.name[1:]"/></strong>
+                    </t>
+                    <t t-if="o.state in ['draft', 'sent']">
+                        <span style="display: block; margin-bottom: 4px; margin-top: 8px;">
+                            PRESUPUESTO N° <t t-esc="o.name[1:]"/>
+                        </span>
+                    </t>
+                    <t t-if="o.state == 'cancel'">
+                        <strong>PRESUPUESTO N° <t t-esc="o.name[1:]"/></strong>
+                    </t>
+                </strong>
+
+                <bold><p style="margin: 4px 0;">(NO VALIDO COMO FACTURA)</p></bold>
+
+                <t t-set="meses" t-value="{
+                    'January': 'Enero', 'February': 'Febrero', 'March': 'Marzo',
+                    'April': 'Abril', 'May': 'Mayo', 'June': 'Junio',
+                    'July': 'Julio', 'August': 'Agosto', 'September': 'Septiembre',
+                    'October': 'Octubre', 'November': 'Noviembre', 'December': 'Diciembre',
+                    'enero': 'Enero','febrero': 'Febrero','marzo': 'Marzo','abril': 'Abril',
+                    'mayo': 'Mayo','junio': 'Junio','julio': 'Julio','agosto': 'Agosto',
+                    'septiembre': 'Septiembre','octubre': 'Octubre','noviembre': 'Noviembre',
+                    'diciembre': 'Diciembre',
+                }"/>
+
+                <t t-set="mes" t-value="meses[o.date_order.strftime('%B')]"/>
+                <p style="margin: 4px 0;">
+                    <t t-esc="o.date_order.strftime('%d') + ' de ' + mes + ' de ' + o.date_order.strftime('%Y')"/>
+                </p>
+
+                <p style="margin: 4px 0;">Página: (<span class="page"/> / <span class="topage"/>)</p>
+            </div>
+        </div>
+        <t t-set="o" t-value="doc"/>
+        <div class="row mb-3" style="border-radius: 5px !important; border-color: black !important; border: 1px solid; font-family:sans-serif;">
+            <div class="col-6 p-3" >
+                <strong>Sres. <t t-esc="o.partner_id.name"/></strong><br/>
+                At.:<br/>
+                <t t-esc="o.partner_id.street"/><br/>
+                <t t-esc="o.partner_id.city"/> <br/>
+
+            </div>
+            <div class="col-6 text-start p-3">
+                <strong>Teléfono:</strong> <t t-esc="o.partner_id.phone"/><br/>
+                <strong>Email:</strong> <t t-esc="o.partner_id.email"/><br/>
+            </div>
+        </div>
+    </div>
+  </template>
+
+</odoo>
+
+<!-- Footer personalizado -->
+<!--  <template id="custom_external_layout_footer">-->
+
+<!--  </template>-->

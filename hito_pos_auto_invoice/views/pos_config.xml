@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="pos_config_view_form" model="ir.ui.view">
+        <!--        inherit pos_config form for adding fields and button-->
+        <field name="name">pos.config.form.view.inherit</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='other_devices']" position='after'>
+                <setting id="auto_invoice" string="Factura Automática" help="Habilita por defecto el checkbox de la factura al realizar un pago.">
+                    <field name="invoice_auto_check" readonly="has_active_session"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

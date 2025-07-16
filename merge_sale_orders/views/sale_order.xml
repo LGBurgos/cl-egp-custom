@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="inherit_sale_order_form_update_price_button" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.update.price.button</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_update_prices']" position="replace">
+                    <button name="action_update_prices" type="object" string=" Actualizar precios"
+                            help="Recalcular todos los precios en base a esta lista de precios."
+                            class="btn-link mb-1 px-0"
+                            icon="fa-refresh"
+                            confirm="Esto actualizará el precio unitario de todos los productos según la nueva lista de precios."
+                            invisible="state in ['sale', 'cancel']"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_sale_order_tree_unify_quote_button" model="ir.ui.view">
+            <field name="name">sale.order.tree.inherit.unify.quote.button</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button" position="after">
+                    <button name="open_unify_quote_wizard" type="object" string="Unificar cotizaciones"/>
+                </xpath>
+            </field>
+         </record>
+    </data>
+</odoo>

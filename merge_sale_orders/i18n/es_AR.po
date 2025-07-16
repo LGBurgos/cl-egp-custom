@@ -1,0 +1,112 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* merge_sale_orders
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0+e-20250609\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-13 18:35+0000\n"
+"PO-Revision-Date: 2025-06-13 18:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: merge_sale_orders
+#: model_terms:ir.ui.view,arch_db:merge_sale_orders.view_merge_order
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: merge_sale_orders
+#: model:ir.model.fields.selection,name:merge_sale_orders.selection__sale_order_merge__merge_quatation__merge_into_new_and_cancel
+msgid "Create New Order and Cancel Selected Order."
+msgstr "Crear nuevo pedido y cancelar los pedidos seleccionados."
+
+#. module: merge_sale_orders
+#: model:ir.model.fields.selection,name:merge_sale_orders.selection__sale_order_merge__merge_quatation__merge_into_new_and_delete
+msgid "Create New Order and Delete Selected Order."
+msgstr "Crear nuevo pedido y eliminar los pedidos seleccionados."
+
+#. module: merge_sale_orders
+#: model:ir.model.fields.selection,name:merge_sale_orders.selection__sale_order_merge__merge_quatation__merge_into_new
+msgid "Create New Order."
+msgstr "Crear nuevo pedido."
+
+#. module: merge_sale_orders
+#: model:ir.model.fields,field_description:merge_sale_orders.field_sale_order_merge__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: merge_sale_orders
+#: model:ir.model.fields,field_description:merge_sale_orders.field_sale_order_merge__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: merge_sale_orders
+#: model:ir.model.fields,field_description:merge_sale_orders.field_sale_order_merge__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: merge_sale_orders
+#: model_terms:ir.ui.view,arch_db:merge_sale_orders.view_merge_order
+msgid "For merge the order select the below option."
+msgstr "Para unificar los pedidos, seleccione una de las siguientes opciones."
+
+#. module: merge_sale_orders
+#: model:ir.model.fields,field_description:merge_sale_orders.field_sale_order_merge__id
+msgid "ID"
+msgstr "ID"
+
+#. module: merge_sale_orders
+#: model:ir.model.fields,field_description:merge_sale_orders.field_sale_order_merge__write_uid
+msgid "Last Updated by"
+msgstr "Última modificación por"
+
+#. module: merge_sale_orders
+#: model:ir.model.fields,field_description:merge_sale_orders.field_sale_order_merge__write_date
+msgid "Last Updated on"
+msgstr "Última modificación el"
+
+#. module: merge_sale_orders
+#: model_terms:ir.ui.view,arch_db:merge_sale_orders.view_merge_order
+msgid "Merge Order"
+msgstr "Unificar pedido"
+
+#. module: merge_sale_orders
+#: model:ir.model.fields.selection,name:merge_sale_orders.selection__sale_order_merge__merge_quatation__merge_into_selected_and_cancel
+msgid "Merge Order on Existing Selected Order and Cancel Others."
+msgstr "Unificar pedidos en uno existente y cancelar los demás."
+
+#. module: merge_sale_orders
+#: model:ir.model.fields.selection,name:merge_sale_orders.selection__sale_order_merge__merge_quatation__merge_into_selected_and_delete
+msgid "Merge Order on Existing Selected Order and Delete Others."
+msgstr "Unificar pedidos en uno existente y eliminar los demás."
+
+#. module: merge_sale_orders
+#: model:ir.actions.act_window,name:merge_sale_orders.action_view_sale_order_merge
+msgid "Merge Quatation"
+msgstr "Unificar cotización"
+
+#. module: merge_sale_orders
+#: model:ir.model,name:merge_sale_orders.model_sale_order_merge
+msgid "Merge Sale Orders"
+msgstr "Unificar pedidos de venta"
+
+#. module: merge_sale_orders
+#: model:ir.model.fields,field_description:merge_sale_orders.field_sale_order_merge__merge_quatation
+msgid "Merge Type"
+msgstr "Tipo de unificación"
+
+#. module: merge_sale_orders
+#: model:ir.model.fields,field_description:merge_sale_orders.field_sale_order_merge__order_ids
+#: model_terms:ir.ui.view,arch_db:merge_sale_orders.view_merge_order
+msgid "Orders"
+msgstr "Pedidos"
+
+#. module: merge_sale_orders
+#: model:ir.model.fields,field_description:merge_sale_orders.field_sale_order_merge__selected_sale_order_ids
+msgid "Selected Sale Orders"
+msgstr "Pedidos de venta seleccionados"

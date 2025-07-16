@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+
+        <record id="res_currency_usd_blue" model="res.currency">
+            <field name="name">BLUE</field>
+            <field name="full_name">Dólar Blue</field>
+            <field name="symbol">USDB</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="decimal_places">2</field>
+            <field name="active" eval="False"/>
+            <field name="l10n_ar_afip_code">USB</field>
+        </record>
+
+        <record id="res_currency_usd_bolsa" model="res.currency">
+            <field name="name">DBOL</field>
+            <field name="full_name">Dólar Bolsa</field>
+            <field name="symbol">USDBOLSA</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="decimal_places">2</field>
+            <field name="active" eval="False"/>
+            <field name="l10n_ar_afip_code">BOL</field>
+        </record>
+
+        <record id="res_currency_usd_ccl" model="res.currency">
+            <field name="name">DCCL</field>
+            <field name="full_name">Dólar Contado con Liquidación</field>
+            <field name="symbol">USDCCL</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="decimal_places">2</field>
+            <field name="active" eval="False"/>
+            <field name="l10n_ar_afip_code">CCL</field>
+        </record>
+
+        <record id="res_currency_usd_mayorista" model="res.currency">
+            <field name="name">DMAY</field>
+            <field name="full_name">Dólar Mayorista</field>
+            <field name="symbol">USDMAY</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="decimal_places">2</field>
+            <field name="active" eval="False"/>
+            <field name="l10n_ar_afip_code">MAY</field>
+        </record>
+
+        <record id="res_currency_usd_cripto" model="res.currency">
+            <field name="name">DCRIP</field>
+            <field name="full_name">Dólar Cripto</field>
+            <field name="symbol">USDCRIP</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="decimal_places">2</field>
+            <field name="active" eval="False"/>
+            <field name="l10n_ar_afip_code">CRIP</field>
+        </record>
+
+        <record id="res_currency_usd_tarjeta" model="res.currency">
+            <field name="name">DTARJ</field>
+            <field name="full_name">Dólar Tarjeta</field>
+            <field name="symbol">USDTARJ</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="decimal_places">2</field>
+            <field name="active" eval="False"/>
+            <field name="l10n_ar_afip_code">TARJ</field>
+        </record>
+    </data>
+</odoo>

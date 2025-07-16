@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!-- COMPRAS -->
+        <record id="paperformat_purchase_custom" model="report.paperformat">
+            <field name="name">Purchase Custom Format</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">47</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="purchase.action_report_purchase_order" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_purchase_custom"/>
+        </record>
+
+        <record id="purchase.report_purchase_quotation" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_purchase_custom"/>
+        </record>
+
+
+        <!-- VENTAS -->
+        <record id="paperformat_sale_order_custom" model="report.paperformat">
+            <field name="name">Purchase Custom Format Sale Order</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="header_spacing">55</field>
+            <field name="margin_top">60</field>
+            <field name="margin_bottom">45</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">2</field>
+            <field name="header_line" eval="False"/>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="sale_pdf_quote_builder.action_report_saleorder_raw" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_sale_order_custom"/>
+        </record>
+
+        <record id="sale.action_report_saleorder" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_sale_order_custom"/>
+        </record>
+
+        <!-- FACTURAS -->
+        <record id="paperformat_invoice_custom" model="report.paperformat">
+            <field name="name">Invoice Custom Format</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">38</field>
+            <field name="margin_bottom">74</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="account.account_invoices_without_payment" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_invoice_custom"/>
+        </record>
+
+        <record id="account.account_invoices" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_invoice_custom"/>
+        </record>
+
+</odoo>
