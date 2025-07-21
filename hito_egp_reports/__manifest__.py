@@ -6,10 +6,12 @@
     "summary": "Change the layout of the purchase order and quote report / sales order",
     "data": [
         'views/account_move.xml',
+        'views/res_company.xml',
         'report/report_purchase_order.xml',
         'report/report_purchase_quotation.xml',
         'report/report_sale_order.xml',
         'report/report_invoice_document.xml',
+        'report/report_delivery_document.xml',
         'report/report.xml',
     ],
     "installable": True,

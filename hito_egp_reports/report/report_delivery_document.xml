@@ -1,0 +1,110 @@
+<odoo>
+    <template id="hito_report_delivery_document_inherit" inherit_id="l10n_ar_stock.report_delivery_document">
+        <xpath expr="//t[@t-set='custom_footer']" position="replace">
+            <t t-set="custom_footer">
+                <div class="row last-page">
+                    <t t-if="o.book_id.report_signature_section">
+                        <!--<t>-->
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th width="25%">Recibí conforme:</th>
+                                    <th width="25%"/>
+                                    <th width="25%"/>
+                                    <th width="25%"/>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Fecha: ____ / ____ / ____</td>
+                                    <td>
+                                        <hr style="border: 1px solid #000000;"/>
+                                    </td>
+                                    <td>
+                                        <hr style="border: 1px solid #000000;"/>
+                                    </td>
+                                    <td>
+                                        <hr style="border: 1px solid #000000;"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th/>
+                                    <th style="text-align: center;">DNI</th>
+                                    <th style="text-align: center;">Firma</th>
+                                    <th style="text-align: center;">Aclaración</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+                <div class="row">
+                    <div name="footer_left_column" class="col-8 text-center">
+                        <t t-if="o.l10n_ar_afip_barcode">
+                            <div style="text-align: center;">
+                                <img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.l10n_ar_afip_barcode, 400, 40)" alt="Barcode" style="height:40px; width:100%"/>
+                                <br/>
+                                <span t-esc="o.l10n_ar_afip_barcode" style="font-size: 14px;"/>
+                            </div>
+                        </t>
+                    </div>
+                    <div name="footer_right_column" class="col-4 text-right">
+                        <div t-if="not o.book_id.lines_per_voucher and o.book_id.l10n_ar_cai">
+                            CAI: <span t-field="o.book_id.l10n_ar_cai"/>
+                        </div>
+                        <div t-if="not o.book_id.lines_per_voucher and o.book_id.l10n_ar_cai_due">
+                            CAI Due Date: <span t-field="o.book_id.l10n_ar_cai_due"/>
+                        </div>
+                        <div name="pager" t-if="report_type == 'pdf'">
+                            Page: <span class="page"/>/<span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+
+        <xpath expr="//t[@t-if='o.book_id.report_signature_section and o.l10n_ar_afip_barcode']" position="replace"/>
+
+        <xpath expr="//div[@id='hide_order_and_shipping_date']" position="after">
+                <div t-if="o.company_id.logo" class="watermark"
+                     t-attf-style="
+                        position: absolute;
+                        top: 200px;
+                        left: 29%;
+                        transform: translateX(-50%);
+                        width: 400px;
+                        height: 400px;
+                        background-image: url('data:image/png;base64,{{ o.company_id.fondo_remito }}');
+                        background-repeat: no-repeat;
+                        background-position: center center;
+                        background-size: contain;
+                        opacity: 0.05;
+                        z-index: 1;
+                     ">
+                </div>
+        </xpath>
+
+    </template>
+
+<!--    <template id="external_layout_background" inherit_id="web.external_layout">-->
+<!--        <xpath expr="//page" position="inside">-->
+<!--            <div t-if="o.company_id.logo"-->
+<!--                 style="-->
+<!--                    position: fixed;-->
+<!--                    top: 40%;-->
+<!--                    left: 50%;-->
+<!--                    transform: translate(-50%, -50%);-->
+<!--                    width: 500px;-->
+<!--                    height: 500px;-->
+<!--                    background-image: url('data:image/png;base64,[[ o.company_id.logo ]]');-->
+<!--                    background-repeat: no-repeat;-->
+<!--                    background-position: center;-->
+<!--                    background-size: contain;-->
+<!--                    opacity: 0.05;-->
+<!--                    z-index: 0;-->
+<!--                 ">-->
+<!--            </div>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+
+</odoo>
