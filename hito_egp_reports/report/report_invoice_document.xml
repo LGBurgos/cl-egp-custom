@@ -83,16 +83,17 @@
 
             <t t-set="custom_footer">
                 <div class="last-page">
-                    <div class="row-12" style="text-align:center">
+                    <div class="row-12" style="text-align:left;">
 
                         <t t-if="o.currency_id.name == 'USD'">
-                            <t t-set="dolar_dia"  t-value="o.inverse_invoice_currency_rate"/>
-                            <t t-set="total_dolares" t-value="o.amount_total"/>
+                            <t t-set="dolar_dia"  t-value="'{:,.2f}'.format(o.inverse_invoice_currency_rate)"/>
+                            <t t-set="total_dolares" t-value="'{:,.2f}'.format(o.amount_total)"/>
                         </t>
                         <t t-else="">
                             <t t-set="dolar_dia" t-value="o.price_dolar"/>
                             <t t-set="total_dolares" t-value="o.amount_total / dolar_dia"/>
                             <t t-set="total_dolares" t-value="'{:,.2f}'.format(total_dolares)"/>
+                            <t t-set="dolar_dia" t-value="'{:,.2f}'.format(o.price_dolar)"/>
                         </t>
                         <t t-if="o.narration">
                             <span t-esc="o.narration.replace('{dolar_dia}','$' + str(dolar_dia)).replace('{total_dolares}', 'u$s' + str(total_dolares))" style="font-family: Courier; font-size:12px; line-height:1;"/>
