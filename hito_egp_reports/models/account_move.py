@@ -1,6 +1,4 @@
 from odoo import models, fields, api
-from odoo.api import depends
-from odoo.exceptions import UserError
 
 
 class AccountMove(models.Model):

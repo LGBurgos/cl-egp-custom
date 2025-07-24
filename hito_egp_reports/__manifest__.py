@@ -7,6 +7,8 @@
     "data": [
         'views/account_move.xml',
         'views/res_company.xml',
+        'views/sale_order.xml',
+        'views/purchase_order.xml',
         'report/report_purchase_order.xml',
         'report/report_purchase_quotation.xml',
         'report/report_sale_order.xml',
