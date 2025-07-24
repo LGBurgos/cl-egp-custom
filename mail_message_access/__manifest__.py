@@ -35,9 +35,10 @@
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
     'website': "https://www.cybrosys.com",
-    'depends': ['base_setup', 'mail'],
+    'depends': ['base_setup', 'mail', 'sale'],
     'data': [
         'security/mail_message_access_groups.xml',
+        'views/sale_order.xml',
     ],
     'assets': {
         'web.assets_backend': [

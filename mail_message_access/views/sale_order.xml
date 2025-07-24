@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_order_form_inherit_custom" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.custom</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@id='send_by_email']" position="attributes">
+               <attribute name="groups">mail_message_access.group_allow_send_message_btn</attribute>
+            </xpath>
+
+            <xpath expr="//button[@id='send_proforma']" position="attributes">
+               <attribute name="groups">sale.group_proforma_sales,mail_message_access.group_allow_send_message_btn</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
