@@ -362,7 +362,7 @@
             <div style="height:15px;"></div>
             <div id="informations" class="row">
                 <div class="row mb-3" style="border-radius: 5px !important; border-color: black !important; border: 1px solid; font-family:sans-serif;">
-                    <div class="col p-3 text-start">
+                    <div class="col-6 p-3 text-start">
                         <strong style="color: black;">Sres. <t t-esc="o.partner_id.name"/></strong><br/>
                         At.:<br/>
                         <t t-esc="o.partner_id.street"/><br/>
@@ -373,6 +373,11 @@
                             <t t-esc="o.partner_id.city"/>
                         </t>
                         <span><span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id.name"/>   CUIT:  <span t-esc="o.partner_id.l10n_ar_vat"/></span>
+                    </div>
+                    <div class="col-6 p-3">
+                        <t t-if="o.ref">
+                            <span t-field="o.ref"/>
+                        </t>
                     </div>
                 </div>
                 <t t-if="o.ref">
