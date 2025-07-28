@@ -85,13 +85,12 @@
 
         <xpath expr="//div[@id='informations']/div[2]/t[1]" position="replace">
                  <t t-if="o._fields.get('sale_id') and o.sudo().sale_id.client_order_ref">
-                    <strong>Customer Reference:</strong>
+                    <strong>Referencia de cliente:</strong>
                     <span t-field="o.sudo().sale_id.client_order_ref"/>
                 </t>
         </xpath>
 
         <xpath expr="//div[@id='informations']/div[2]/t[4]" position="replace"/>
-
 
     </template>
 
