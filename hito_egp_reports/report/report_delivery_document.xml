@@ -92,6 +92,12 @@
 
         <xpath expr="//div[@id='informations']/div[2]/t[4]" position="replace"/>
 
+        <xpath expr="//div[@id='informations']" position="before">
+            <div style="height:1px;">
+
+            </div>
+        </xpath>
+
     </template>
 
 
