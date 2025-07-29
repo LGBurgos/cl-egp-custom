@@ -1,0 +1,17 @@
+<odoo>
+
+  <record id="view_product_template_tree_inherit" model="ir.ui.view">
+    <field name="name">product.template.tree.inherit</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_tree_view"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='standard_price']" position="after">
+        <field name="replenishment_base_cost_currency_id" string="Moneda del costo de reposición"/>
+        <field name="replenishment_base_cost" string="Costo de reposición"/>
+      </xpath>
+
+    </field>
+  </record>
+
+</odoo>
