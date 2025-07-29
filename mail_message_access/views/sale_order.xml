@@ -6,12 +6,20 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//button[@name='action_quotation_send']" position="attributes">
+            <xpath expr="//button[@name='action_quotation_send'][1]" position="attributes">
                <attribute name="groups">mail_message_access.group_allow_send_message_btn</attribute>
             </xpath>
 
-            <xpath expr="//button[@id='send_proforma']" position="attributes">
-               <attribute name="groups">sale.group_proforma_sales,mail_message_access.group_allow_send_message_btn</attribute>
+            <xpath expr="//button[@name='action_quotation_send'][2]" position="attributes">
+               <attribute name="groups">mail_message_access.group_allow_send_message_btn</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_quotation_send'][3]" position="attributes">
+               <attribute name="groups">mail_message_access.group_allow_send_message_btn</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_quotation_send'][4]" position="attributes">
+               <attribute name="groups">mail_message_access.group_allow_send_message_btn</attribute>
             </xpath>
 
         </field>
