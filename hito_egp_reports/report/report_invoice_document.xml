@@ -201,16 +201,31 @@
                             <t t-if="line.display_type == 'product'" name="account_invoice_line_accountable">
 
                                 <td name="td_quantity" class="text-end" style="width: 4% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
-                                    <span t-field="line.quantity"/>
+                                    <span t-esc="int(line.quantity)"/>
                                 </td>
 
                                 <td id="td_code" class="text-center" style="width: 13% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
                                     <span t-field="line.product_id.default_code"/>
                                 </td>
 
+<!--                                <td name="account_invoice_line_name" class="text-start" style="width: 60% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">-->
+<!--                                    <span t-if="line.product_id" t-esc="line.product_id.name[:101]" style="margin-left:20px;"/>-->
+<!--                                </td>-->
+
                                 <td name="account_invoice_line_name" class="text-start" style="width: 60% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
-                                    <span t-if="line.product_id" t-esc="line.product_id.name[:101]" style="margin-left:20px;"/>
+                                    <t t-if="line.product_id.name == '-'">
+                                        <span style="margin-left:20px;"> - <span t-if="line.product_id" t-esc="line.custom_description"/></span>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-if="line.custom_description">
+                                            <span style="margin-left:20px;"><span t-if="line.product_id" t-esc="line.product_id.name[:101]"/> - <span t-if="line.product_id" t-esc="line.custom_description"/></span>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-if="line.product_id" t-esc="line.product_id.name[:101]" style="margin-left:20px;"/>
+                                        </t>
+                                    </t>
                                 </td>
+
 
                                 <td name="td_price_unit" class="text-end" style="width: 12% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
                                     <span t-field="line.price_unit" />

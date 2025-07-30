@@ -15,3 +15,10 @@ class AccountMove(models.Model):
                 rec.price_dolar = initial_rate.inverse_company_rate
             else:
                 rec.price_dolar = 1
+
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    custom_description = fields.Text(string="Descripción adicional")
