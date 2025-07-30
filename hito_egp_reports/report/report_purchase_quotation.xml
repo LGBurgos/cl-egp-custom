@@ -151,13 +151,6 @@
                         <table class="o_has_total_table table o_main_table table-borderless" style="border-collapse: separate; border-spacing: 0 8px; width: 100%;">
                             <thead>
                                 <tr>
-<!--                                    <th name="th_quantity" class="text-center" style="border-left: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid white; border-radius: 6px 0 0 6px;"><strong>Cant.</strong></th>-->
-<!--                                    <th name="th_code" class="text-center border-start-0 border-end-0" style="border-top: 1px solid black; border-bottom: 1px solid black;"><strong>Código</strong></th>-->
-<!--                                    <th name="th_description" class="text-center border-start-0 border-end-0" style="border-top: 1px solid black; border-bottom: 1px solid black;"><strong>Descripción</strong></th>-->
-<!--                                    <th name="th_price_unit" class="text-center border-start-0 border-end-0" style="border-top: 1px solid black; border-bottom: 1px solid black;"><strong>Unit.</strong></th>-->
-<!--                                    <th name="th_subtotal" class="text-center" style="border-left: 1px solid white; border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black; border-radius: 0 6px 6px 0;">-->
-<!--                                        <strong>Total</strong>-->
-<!--                                    </th>-->
                                     <div class="row border" style="width:100%; display:inline-block;  border-radius:6px;">
                                        <strong><span>Cant.</span></strong>
                                         <strong><span style="margin-left: 30px;">Código</span></strong>
@@ -184,16 +177,32 @@
                                     <tr t-att-class="'fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''" style="font-size: 12px; page-break-inside: avoid;">
                                         <t t-if="not line.display_type">
                                             <td class="text-end" style="width: 4% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
-                                                <span t-field="line.product_qty"/>
+                                                <span t-esc="int(line.product_qty)"/>
                                             </td>
 
                                             <td id="td_code" class="text-start" style="width: 13% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
                                                 <span t-field="line.product_id.default_code"/>
                                             </td>
 
+<!--                                            <td class="text-start" style="width: 68% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">-->
+<!--                                                <span t-if="line.product_id" t-esc="line.product_id.name[:101]"/>-->
+<!--                                            </td>-->
+
+
                                             <td class="text-start" style="width: 68% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
-                                                <span t-if="line.product_id" t-esc="line.product_id.name[:101]"/>
+                                                <t t-if="line.product_id.name == '-'">
+                                                   <span> - <span t-if="line.product_id" t-esc="line.custom_description"/></span>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-if="line.custom_description">
+                                                        <span><span t-if="line.product_id" t-esc="line.product_id.name[:101]"/> - <span t-if="line.product_id" t-esc="line.custom_description"/></span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span t-if="line.product_id" t-esc="line.product_id.name[:101]"/>
+                                                    </t>
+                                                </t>
                                             </td>
+
 
                                             <td class="text-end" style="width: 8% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
                                                 <span t-field="line.price_unit" style="margin-right:50px !important;" />
