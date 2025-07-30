@@ -1,17 +1,24 @@
 <odoo>
-  <record id="view_sale_order_form_inherit" model="ir.ui.view">
-    <field name="name">sale.order.form.inherit</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-      <xpath expr="//field[@name='note']" position="after">
-          <div>
-              <field name="internal_notes" placeholder="Notas internas..."/>
-          </div>
-      </xpath>
-      <xpath expr="//field[@name='order_line']/list//field[@name='product_template_id']" position="after">
-          <field name="custom_description" string="Descripción" optional="hide"/>
-      </xpath>
-    </field>
-  </record>
+    <record id="view_sale_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='note']" position="after">
+                <div>
+                    <field name="internal_notes" placeholder="Notas internas..."/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list//field[@name='product_template_id']" position="after">
+                <field name="custom_description" string="Descripción" optional="hide"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/list//field[@name='name']" position="attributes">
+                <attribute name="widget" />
+                <attribute name="optional" />
+                <attribute name="invisible">1</attribute>
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
 </odoo>
