@@ -1,0 +1,19 @@
+<odoo>
+    <template id="hito_stock_report_delivery_aggregated_move_lines_inherit" inherit_id="stock.stock_report_delivery_aggregated_move_lines">
+        <xpath expr="//tr/td[1]" position="replace">
+            <td>
+                <t t-if="'] -' in aggregated_lines[line]['name']">
+                    <span>- <span t-esc="aggregated_lines[line]['description']"/></span>
+                </t>
+                <t t-else="">
+                    <t t-if="aggregated_lines[line]['description']">
+                        <span><span t-esc="aggregated_lines[line]['name'][:101]"/> - <span t-esc="aggregated_lines[line]['description']"/></span>
+                    </t>
+                    <t t-else="">
+                        <span t-esc="aggregated_lines[line]['name'][:101]"/>
+                    </t>
+                </t>
+            </td>
+        </xpath>
+    </template>
+</odoo>

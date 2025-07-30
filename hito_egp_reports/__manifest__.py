@@ -14,7 +14,9 @@
         'report/report_sale_order.xml',
         'report/report_invoice_document.xml',
         'report/report_delivery_document.xml',
+        'report/stock_report_delivery_aggregated_move_lines.xml',
         'report/report.xml',
+
     ],
     "installable": True,
     "application": False,
