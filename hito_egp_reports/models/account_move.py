@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    price_dolar = fields.Float(string="Dólar hoy")
+    price_dolar = fields.Float(string="Dólar hoy", tracking=True)
 
     @api.model
     def default_get(self, fields_list):
