@@ -3,7 +3,7 @@
         <xpath expr="//tr/td[1]" position="replace">
             <td>
                 <t t-if="'] -' in aggregated_lines[line]['name']">
-                    <span>- <span t-esc="aggregated_lines[line]['description']"/></span>
+                    <span><span t-esc="aggregated_lines[line]['name'][:101]"/> <span t-esc="aggregated_lines[line]['description']"/></span>
                 </t>
                 <t t-else="">
                     <t t-if="aggregated_lines[line]['description']">
