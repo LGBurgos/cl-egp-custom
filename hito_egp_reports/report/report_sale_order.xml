@@ -80,6 +80,11 @@
                                             <span t-field="line.price_subtotal"/>
                                         </td>
                                     </t>
+                                    <t t-elif="line.display_type == 'line_note'">
+                                        <td colspan="99">
+                                            <span t-if="line.name" t-field="line.name" t-options="{'widget': 'text'}" style="margin-left: 3%;">A note, whose content usually applies to the section or product above.</span>
+                                        </td>
+                                    </t>
                                 </tr>
                             </t>
                         </tbody>
@@ -95,6 +100,7 @@
                         <div class="col-8 p-1" style="border-radius: 5px !important; border-color: black !important; border: 1px solid; font-size: 14px; line-height: 1; font-family:sans-serif;">
                             <div class="last-page">
                                 <strong>Obs.:</strong>
+                                <p><strong>Orden:</strong> <span t-field="o.client_order_ref"/></p>
                                 <p t-field="o.internal_notes"/>
                                 <br/>
                             </div>
