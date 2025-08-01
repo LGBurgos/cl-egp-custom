@@ -251,17 +251,17 @@
 <!--                                <t t-set="current_section" t-value="line"/>-->
 <!--                                <t t-set="current_subtotal" t-value="0"/>-->
 <!--                            </t>-->
-<!--                            <t t-elif="line.display_type == 'line_note'">-->
-<!--                                <td colspan="99">-->
-<!--                                    <span t-if="line.name" t-field="line.name" t-options="{'widget': 'text'}">A note, whose content usually applies to the section or product above.</span>-->
-<!--                                </td>-->
-<!--                            </t>-->
+                            <t t-elif="line.display_type == 'line_note'">
+                                <td colspan="99">
+                                    <span t-if="line.name" t-field="line.name" t-options="{'widget': 'text'}" style="margin-left: 3%;">A note, whose content usually applies to the section or product above.</span>
+                                </td>
+                            </t>
                         </tr>
 
 <!--                        <t t-if="current_section and (line_last or lines[line_index+1].display_type == 'line_section')">-->
 <!--                            <tr class="is-subtotal text-end">-->
 <!--                                <td colspan="99">-->
-<!--                                    <strong class="mr16">Subtotal</strong>-->
+<!--                                    <strong class="mr14">Subtotal</strong>-->
 <!--                                    <span-->
 <!--                                        t-out="current_subtotal"-->
 <!--                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'-->
@@ -391,7 +391,7 @@
                     </div>
                     <div class="col-6 p-3">
                         <t t-if="o.ref">
-                            <span t-field="o.ref"/>
+                            <span><strong>Orden:</strong> <span t-field="o.ref"/></span>
                         </t>
                     </div>
                 </div>
