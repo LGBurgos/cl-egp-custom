@@ -253,7 +253,7 @@
 <!--                            </t>-->
                             <t t-elif="line.display_type == 'line_note'">
                                 <td colspan="99">
-                                    <span t-if="line.name" t-field="line.name" t-options="{'widget': 'text'}" style="margin-left: 3%;">A note, whose content usually applies to the section or product above.</span>
+                                    <span t-if="line.name" t-field="line.name" t-options="{'widget': 'text'}">A note, whose content usually applies to the section or product above.</span>
                                 </td>
                             </t>
                         </tr>
