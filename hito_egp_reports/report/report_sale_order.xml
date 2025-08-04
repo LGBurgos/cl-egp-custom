@@ -69,7 +69,8 @@
                                         </td>
 
                                         <td name="td_delivery_time" class="text-center" style="width: 12% !important; padding-top: 1px; padding-bottom: 1px; line-height: 1;">
-                                            <span t-field="line.delivery_time"/>
+                                            <span t-esc="int(line.customer_lead)"/>
+
                                         </td>
 
                                         <td name="td_priceunit" class="text-end" style="width: 8% !important; padding-top: 1px; padding-bottom: 1px; line-height: 1;">
