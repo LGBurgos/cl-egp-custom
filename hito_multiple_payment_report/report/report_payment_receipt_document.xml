@@ -1,0 +1,21 @@
+<odoo>
+    <template id="hito_report_payment_receipt_document_inherit" inherit_id="l10n_ar_tax.report_payment_receipt_document">
+        <xpath expr="//table[@name='matching_table']/tbody/tr" position="replace">
+            <tr t-if="sum(payment_bundle.mapped('unmatched_amount'))">
+                <td>A cuenta</td>
+                <td class="text-center"/>
+                <td class="text-right o_price_total"/>
+                <td class="text-right o_price_total">
+                    <t t-if="o.journal_id.code == 'CSH4'">
+                        <span class="text-nowrap" t-out="(sum(payment_bundle.mapped('unmatched_amount')) / 2)" t-options="{'widget': 'monetary', 'display_currency': o.company_currency_id}"/>
+                        <!-- se agrega division por 2 -->
+                    </t>
+                    <t t-else="">
+                         <span class="text-nowrap" t-out="sum(payment_bundle.mapped('unmatched_amount'))" t-options="{'widget': 'monetary', 'display_currency': o.company_currency_id}"/>
+                    </t>
+                </td>
+            </tr>
+        </xpath>
+    </template>
+</odoo>
+
