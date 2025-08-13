@@ -184,6 +184,7 @@
                 <div t-field="company.partner_id.phone" style="font-size: 12px;"/>
                 <div t-field="company.partner_id.email" style="font-size: 12px;"/>
                 <div t-field="company.partner_id.website" style="font-size: 12px;"/>
+                <div class="row"><span style="font-size: 12px;">CUIT: </span><span t-field="company.partner_id.vat" style="font-size: 12px;"/></div>
             </div>
             <div class="col-4 d-flex justify-content-center align-items-center">
                 <div class="mt-1" style="
