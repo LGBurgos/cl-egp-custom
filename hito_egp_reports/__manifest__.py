@@ -1,7 +1,7 @@
 {
     "name": "Hito EGP Reports",
     "version": "18.0",
-    "depends": ["l10n_ar_purchase","l10n_ar_purchase_stock","sale_management"],
+    "depends": ["l10n_ar_purchase","l10n_ar_purchase_stock","sale_management","l10n_ar_stock"],
     "category": "purchase",
     "summary": "Change the layout of the purchase order and quote report / sales order",
     "data": [
@@ -16,7 +16,7 @@
         'report/report_delivery_document.xml',
         'report/stock_report_delivery_aggregated_move_lines.xml',
         'report/report.xml',
-
+        'data/link_invoices_and_pickings.xml',
     ],
     "installable": True,
     "application": False,
