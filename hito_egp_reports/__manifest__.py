@@ -15,6 +15,7 @@
         'report/report_invoice_document.xml',
         'report/report_delivery_document.xml',
         'report/stock_report_delivery_aggregated_move_lines.xml',
+        'report/stock_report_delivery_document.xml',
         'report/report.xml',
         'data/link_invoices_and_pickings.xml',
     ],

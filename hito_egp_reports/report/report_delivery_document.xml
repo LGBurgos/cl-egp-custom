@@ -98,6 +98,10 @@
             </div>
         </xpath>
 
+        <xpath expr="//div[@id='informations']" position="attributes">
+            <attribute name="class">row mt5 mb5</attribute>
+        </xpath>
+
     </template>
 
 
