@@ -1,5 +1,5 @@
 <odoo>
-    <template id="hito_report_delivery_document_inherit" inherit_id="l10n_ar_stock.report_delivery_document">
+    <template id="hito_report_delivery_document_inherit_l10n_ar" inherit_id="l10n_ar_stock.report_delivery_document">
         <xpath expr="//t[@t-set='custom_footer']" position="replace">
             <t t-set="custom_footer">
                 <div class="row last-page">
