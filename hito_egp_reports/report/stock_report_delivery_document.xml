@@ -1,0 +1,7 @@
+<odoo>
+    <template id="hito_report_delivery_document_inherit" inherit_id="stock.report_delivery_document">
+        <xpath expr="//table[@name='stock_move_line_table']" position="attributes">
+            <attribute name="class">table table-borderless mt5</attribute>
+        </xpath>
+    </template>
+</odoo>
