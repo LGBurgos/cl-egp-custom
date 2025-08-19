@@ -15,5 +15,18 @@
                 </t>
             </td>
         </xpath>
+
+        <xpath expr="//td[@name='move_line_aggregated_quantity']" position="replace">
+            <td class="text-center" name="move_line_aggregated_quantity">
+                <t t-if="aggregated_lines[line]['quantity']">
+                    <span t-esc="aggregated_lines[line]['quantity']" t-options="{'widget': 'integer', 'decimal_precision': 'Product Unit of Measure'}"/>
+                    <span t-esc="aggregated_lines[line]['product_uom'].name"/>
+                    <span t-if="aggregated_lines[line]['packaging'].name">
+                        (<span t-out="aggregated_lines[line]['packaging_quantity']" t-options="{&quot;widget&quot;: &quot;integer&quot;}"/> <span t-out="aggregated_lines[line]['packaging'].name"/>)
+                    </span>
+                </t>
+            </td>
+        </xpath>
+
     </template>
 </odoo>
