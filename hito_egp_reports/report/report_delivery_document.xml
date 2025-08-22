@@ -62,6 +62,14 @@
             </t>
         </xpath>
 
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <t t-if="o_page_number == o_page_count">
+                <div style="margin-top: 10px;" t-if="o.note">
+                    <span t-field="o.note"/>
+                </div>
+            </t>
+        </xpath>
+
         <xpath expr="//t[@t-if='o.book_id.report_signature_section and o.l10n_ar_afip_barcode']" position="replace"/>
 
         <xpath expr="//div[@id='hide_order_and_shipping_date']" position="after">
