@@ -1,6 +1,6 @@
 {
     "name": "Hito EGP Reports",
-    "version": "18.0.0.1",
+    "version": "18.0.0.2",
     "depends": ["l10n_ar_purchase","l10n_ar_purchase_stock","sale_management","l10n_ar_stock"],
     "category": "purchase",
     "summary": "Change the layout of the purchase order and quote report / sales order",
