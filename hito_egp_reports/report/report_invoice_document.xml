@@ -55,9 +55,9 @@
                         </table>
                     </div>
                     <div class="col-6" style="text-align: center; font-family:sans-serif;">
-                        <span t-field="o.l10n_latam_document_type_id.name" style="font-weight:bold; font-size: 20px;"/>
+                        <span t-field="o.l10n_latam_document_type_id.report_name" style="font-weight:bold; font-size: 18px;"/>
                         <br/>
-                        <span style="font-weight:bold; font-size: 20px;">N°: </span><span style="font-weight:bold; font-size: 20px;" t-field="o.l10n_latam_document_number"/>
+                        <span style="font-weight:bold; font-size: 20px;">N°: </span><span style="font-weight:bold; font-size: 18px;" t-field="o.l10n_latam_document_number"/>
                         <br/>
                         <span style="font-size: 14px;">Fecha de Emisión: </span><span t-field="o.invoice_date"/>
                         <br/>
@@ -138,7 +138,7 @@
                                             <span style="font-size:12px !important;">Descuentos</span>
                                         </div>
                                         <div class="col text-end">
-                                            <span style="font-size:12px;">$</span>
+                                            <span style="font-size:12px;"><span t-field="o.currency_id.symbol"/></span>
                                             <span t-out="'{:,.2f}'.format(subtotal_without_discounts).replace(',', 'X').replace('.', ',').replace('X', '.')"
                                                   style="font-size:12px;"/>
                                             <br/>
