@@ -285,7 +285,7 @@
                                                 <span style="font-size:12px !important;">Descuentos</span>
                                             </div>
                                             <div class="col text-end">
-                                                <span style="font-size:12px;">$</span>
+                                                <span style="font-size:12px;"><span t-field="o.currency_id.symbol"/></span>
                                                 <span t-out="'{:,.2f}'.format(subtotal_without_discounts).replace(',', 'X').replace('.', ',').replace('X', '.')"
                                                       style="font-size:12px;"/>
                                                 <br/>
