@@ -211,6 +211,17 @@
                                                 <span t-field="line.price_subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}' style="margin-right:50px !important;" />
                                             </td>
                                         </t>
+                                        <t t-if="line.display_type == 'line_section'">
+                                            <td colspan="5" style="font-weight: bold; border-top: 1px solid #000;">
+                                                <span t-esc="line.name"/>
+                                            </td>
+                                        </t>
+
+                                        <t t-if="line.display_type == 'line_note'">
+                                            <td colspan="5" style="font-style: italic;">
+                                                <span t-esc="line.name"/>
+                                            </td>
+                                        </t>
                                     </tr>
                                 </t>
                             </tbody>
