@@ -10,6 +10,26 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     price_dolar = fields.Float(string="Dólar hoy", tracking=True)
+    
+    partner_padre_id = fields.Many2one(
+        'res.partner',
+        compute='_compute_partner_padre_id',
+        store=False,
+        help="Cliente padre si existe relación padre-hijo, sino el cliente directo"
+    )
+
+    def _compute_partner_padre_id(self):
+        """
+        Calcula el cliente padre o el cliente directo si no hay relación padre-hijo
+        """
+        for record in self:
+            if record.partner_id:
+                if record.partner_id.parent_id:
+                    record.partner_padre_id = record.partner_id.parent_id
+                else:
+                    record.partner_padre_id = record.partner_id
+            else:
+                record.partner_padre_id = None
 
     @api.model
     def default_get(self, fields_list):
