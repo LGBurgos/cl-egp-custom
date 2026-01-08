@@ -7,5 +7,7 @@
     'license': 'LGPL-3',
     'depends': ['account_followup'],
     'data': [],
-    'installable': True,
+    "installable": True,
+    "application": False,
+    
 }
