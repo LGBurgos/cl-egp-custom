@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 
 class AccountFollowupReportRheemPatch(models.AbstractModel):
     """
-    Parche para RHEEM S.A. ÚNICAMENTE
+    Parche para RHEEM S.A. ÚNICAMENTE sdfaas
     Excluye facturas con payment_state = 'paid' o 'in_payment'
     """
     _inherit = 'account.followup.report'
