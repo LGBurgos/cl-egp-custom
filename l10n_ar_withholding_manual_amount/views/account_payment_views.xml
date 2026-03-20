@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Agregar columna "Monto Manual" en las líneas de retención del pago -->
+    <record id="view_account_payment_form_withholding_manual" model="ir.ui.view">
+        <field name="name">account.payment.form.withholding.manual</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="l10n_ar_tax.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <!-- Buscar el campo amount en las líneas de retención y agregar después -->
+            <xpath expr="//field[@name='l10n_ar_withholding_line_ids']/list/field[@name='amount']" position="after">
+                <field name="manual_amount" string="Manual" 
+                       help="Si está marcado, el monto no se recalculará automáticamente"/>
+                <button name="action_reset_to_automatic" type="object" 
+                        string="↺" title="Volver a cálculo automático"
+                        class="btn-link"
+                        invisible="not manual_amount"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
