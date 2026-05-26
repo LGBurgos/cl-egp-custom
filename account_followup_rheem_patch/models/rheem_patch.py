@@ -4,52 +4,37 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class AccountFollowupReportRheemPatch(models.AbstractModel):
+class AccountReportPatch(models.AbstractModel):
     """
-    Parche para RHEEM S.A. ÚNICAMENTE sdfaas
-    Excluye facturas con payment_state = 'paid' o 'in_payment'
+    Filtro para reportes - Excluye facturas pagadas a nivel de query
+    Aplicado a TODOS los clientes (20/05/2026 FINAL v3)
+    Filtra SIEMPRE, no solo cuando unreconciled=True
     """
-    _inherit = 'account.followup.report'
+    _inherit = 'account.report'
 
-    def _get_followup_report_lines(self, options):
+    def _get_report_query(self, options, date_scope, domain=None):
         """
-        Excluir facturas pagadas de RHEEM S.A. del reporte de seguimiento
+        Override para agregar filtro de facturas pagadas
+        Filtra en reportes de seguimiento/partner ledger/customer statement
         """
-        partner = options.get('partner_id') and self.env['res.partner'].browse(options['partner_id']) or False
-        if not partner:
-            return super()._get_followup_report_lines(options)
+        # Verificar si es un reporte relacionado con partners
+        report_name = self.name if hasattr(self, 'name') else ''
+        is_partner_report = any(x in report_name.lower() for x in ['followup', 'partner ledger', 'customer statement'])
         
-        # SOLO para RHEEM S.A.
-        if partner.vat != '30612958528':
-            return super()._get_followup_report_lines(options)
-        
-        _logger.info(f"[RHEEM_PATCH] Aplicando filtro a {partner.name}")
-        
-        lines = super()._get_followup_report_lines(options)
-        
-        if not lines:
-            return lines
-        
-        _logger.info(f"[RHEEM_PATCH] Total líneas antes: {len(lines)}")
-        
-        # Filtrar: excluir facturas pagadas
-        filtered_lines = []
-        for line in lines:
-            # Mantener líneas de totales y pagos
-            if line.get('class') == 'total' or line.get('type') == 'payment':
-                filtered_lines.append(line)
-                continue
+        # CAMBIO: Filtrar SIEMPRE en reportes de partners, no solo cuando unreconciled=True
+        if is_partner_report:
+            _logger.info(f"[FOLLOWUP_FILTER] Aplicando filtro en reporte: {report_name}")
             
-            # Filtrar por payment_state
-            if 'move_id' in line and line['move_id']:
-                move = self.env['account.move'].browse(line['move_id'])
-                if move.payment_state not in ['paid', 'in_payment']:
-                    _logger.info(f"[RHEEM_PATCH] INCLUIR {move.name} ({move.payment_state})")
-                    filtered_lines.append(line)
-                else:
-                    _logger.info(f"[RHEEM_PATCH] EXCLUIR {move.name} ({move.payment_state})")
-            else:
-                filtered_lines.append(line)
+            # Agregar dominio para excluir facturas pagadas
+            if domain is None:
+                domain = []
+            
+            domain += [
+                '|',
+                    ('move_id.payment_state', 'not in', ['paid', 'in_payment']),
+                    ('move_id.payment_state', '=', False)
+            ]
+            
+            _logger.info(f"[FOLLOWUP_FILTER] Dominio modificado")
         
-        _logger.info(f"[RHEEM_PATCH] Total líneas después: {len(filtered_lines)}")
-        return filtered_lines
+        return super()._get_report_query(options, date_scope, domain=domain)

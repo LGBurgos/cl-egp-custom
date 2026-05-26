@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <!-- CUSTOM HEADER -->
-         <template id="inherit_custom_header_purchasequotation" inherit_id="l10n_ar_purchase.custom_header_purchasequotation">
+         <template id="inherit_custom_header_purchaseorder" inherit_id="l10n_ar_purchase.custom_header_purchaseorder">
              <xpath expr="//div" position="replace">
                  <t t-if="o and o._name == 'purchase.order'">
                     <div class="row" style="font-family:sans-serif">
@@ -77,7 +77,12 @@
                                 <br/>
 
                                 <!-- (9) Fecha -->
-                                <span t-att-style="'color: %s;' % o.company_id.secondary_color">Date due: </span>
+                                <t t-if="o.state in ['purchase', 'done']">
+                                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Approve date: </span>
+                                </t>
+                                <t t-else="">
+                                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Date due: </span>
+                                </t>
 
                                 <t t-if="not pre_printed_report">
                                     <!-- (5) Condicion de IVA / Responsabilidad -->
@@ -97,8 +102,8 @@
              </xpath>
          </template>
 
-        <!-- REPORTE SOLICITUD DE COTIZACION DE COMPRA -->
-        <template id="report_purchasequotation_custom"  priority="21" inherit_id="purchase.report_purchasequotation_document">
+        <!-- REPORTE COTIZACION COMPRA -->
+        <template id="report_purchaseorder_custom"  priority="21" inherit_id="purchase.report_purchaseorder_document">
             <xpath expr="//div[@class='page']" position="replace">
                 <div class="page" style="font-family:sans-serif;">
                     <div class="oe_structure"/>
@@ -111,7 +116,7 @@
                         </t>
                     </div>
 
-<!--                    <div id="informations"/>-->
+                    <div id="informations"/>
 
                     <div class="d-flex justify-content-between mb-3">
                         <div class="col-6 p-3" style="border-radius: 5px !important; border-color: black !important; border: 1px solid;">
@@ -124,13 +129,13 @@
                         </div>
                         <div class="col-6 text-start p-3" style="border-radius: 5px !important; border-color: black !important; border: 1px solid;">
                             <t t-if="o.state in ['purchase', 'done']">
-                                <strong>Solicitud de Pedido de Compra:: <t t-esc="o.name[1:]"/></strong>
+                                <strong>Nota de Pedido Compra: <t t-esc="o.name[1:]"/></strong>
                             </t>
                             <t t-if="o.state in ['draft', 'sent', 'to approve']">
                                  <strong>Solicitud de Pedido de Compra: <t t-esc="o.name[1:]"/></strong>
                             </t>
                             <t t-if="o.state == 'cancel'">
-                                <strong>Solicitud de Pedido de Compra: <t t-esc="o.name[1:]"/></strong>
+                                <strong>Nota de Pedido Compra:: <t t-esc="o.name[1:]"/></strong>
                             </t>
                             <br/>
                             <br/>
@@ -152,28 +157,19 @@
                     <div style="font-family:sans-serif;">
                         <table class="o_has_total_table table o_main_table table-borderless" style="border-collapse: separate; border-spacing: 0 8px; width: 100%;">
                             <thead>
-                                <tr>
-                                    <div class="row border" style="width:100%; display:inline-block;  border-radius:6px;">
-                                       <strong><span>Cant.</span></strong>
-                                        <strong><span style="margin-left: 30px;">Código</span></strong>
-                                        <strong><span style="margin-left: 250px;">Descripción</span></strong>
-                                        <strong><span style="margin-left: 180px;">Unit.</span></strong>
-                                        <strong><span style="margin-left: 80px;">Total</span></strong>
-                                    </div>
+                                <tr style="border: 1px solid #dee2e6; border-radius: 6px;">
+                                    <th class="text-end" style="width: 4%; padding: 4px;"><strong>Cant.</strong></th>
+                                    <th class="text-start" style="width: 13%; padding: 4px;"><strong>Código</strong></th>
+                                    <th class="text-start" style="width: 68%; padding: 4px;"><strong>Descripción</strong></th>
+                                    <th class="text-start" style="width: 8%; padding: 4px;"><strong>Unit.</strong></th>
+                                    <th class="text-start" style="width: 7%; padding: 4px;"><strong>Total</strong></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <t t-set="current_subtotal" t-value="0"/>
 
-                                <t t-set="has_code" t-value="False"/>
-
-                                 <t t-foreach="o.order_line" t-as="line">
-                                     <t t-if="line.product_id.default_code">
-                                         <t t-set="has_code" t-value="True"/>
-                                     </t>
-                                 </t>
-
                                 <t t-foreach="o.order_line" t-as="line">
+
                                     <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
 
                                     <tr t-att-class="'fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''" style="font-size: 12px; page-break-inside: avoid;">
@@ -189,7 +185,6 @@
 <!--                                            <td class="text-start" style="width: 68% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">-->
 <!--                                                <span t-if="line.product_id" t-esc="line.product_id.name[:101]"/>-->
 <!--                                            </td>-->
-
 
                                             <td class="text-start" style="width: 68% !important; padding-top: 2px; padding-bottom: 1px; line-height: 1;">
                                                 <t t-if="line.product_id.name == '-'">
@@ -214,11 +209,25 @@
                                                 <span t-field="line.price_subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}' style="margin-right:50px !important;" />
                                             </td>
                                         </t>
+                                        <t t-if="line.display_type == 'line_section'">
+                                            <td colspan="5" style="font-weight: bold; border-top: 1px solid #000;">
+                                                <span t-esc="line.name"/>
+                                            </td>
+                                        </t>
+
+                                        <t t-if="line.display_type == 'line_note'">
+                                            <td colspan="5" style="font-style: italic;">
+                                                <span t-esc="line.name"/>
+                                            </td>
+                                        </t>
                                     </tr>
                                 </t>
                             </tbody>
                         </table>
                     </div>
+
+
+
 
                     <t t-set="base_address" t-value="o.env['ir.config_parameter'].sudo().get_param('web.base.url')"/>
                     <t t-set="portal_url" t-value="base_address + '/my/purchase/' + str(o.id) + '#portal_connect_software_modal'"/>
@@ -231,21 +240,27 @@
         </template>
 
 
-        <template id="l10n_ar_purchase.report_purchasequotation_document" priority="20" inherit_id="purchase.report_purchasequotation_document" primary="True">
+        <!-- REPORTE DE l10n_ar_purchase -->
+
+         <!-- we force priority greater than 16 so that it dont break inheritance of report_saleorder_document_inherit_sale_stock. with this we are loosing the incoterm field added but that sale_stock view -->
+        <template id="l10n_ar_purchase.report_purchaseorder_document" priority="20" inherit_id="purchase.report_purchaseorder_document" primary="True">
             <!-- custom header and footer -->
             <t t-set="o" position="after">
-                <t t-set="custom_header" t-value="'l10n_ar_purchase.custom_header_purchasequotation'"/>
-                <t t-set="report_date" t-value="o.date_order"/>
+                <t t-set="custom_header" t-value="'l10n_ar_purchase.custom_header_purchaseorder'"/>
+                <t t-set="report_date" t-value="o.date_approve if o.date_approve else o.date_order"/>
                 <t t-set="report_number" t-value="o.name"/>
                 <!-- <t t-set="pre_printed_report" t-value="o.journal_id.l10n_ar_afip_pos_system == 'II_IM'"/> -->
                 <t t-set="document_letter" t-value="'X'"/>
                 <t t-set="document_legend">Invalid document as invoice</t>
-                <t t-set="report_name">Request for Quotation</t>
+                <t t-set="report_name" t-if="o.state in ['draft', 'sent', 'to approve']">Request for Quotation</t>
+                <t t-set="report_name" t-if="o.state in ['purchase', 'done']">Purchase Order</t>
+                <t t-set="report_name" t-if="o.state == 'cancel'">Cancelled Purchase Order</t>
 
                 <t t-set="header_address" t-value="o.company_id.partner_id"/>
 
                 <t t-set="custom_footer">
-                    <div class="last-page">
+
+                   <div class="last-page">
                         <div class="row last-page">
                             <strong>Son: </strong><span t-out="o.currency_id.with_context(lang='es_AR').amount_to_text(o.amount_total)"/>
                         </div>
@@ -292,36 +307,35 @@
                             </div>
                         </div>
 
-                    </div>
+                   </div>
                 </t>
             </t>
 
             <!-- remove default partner address -->
             <t t-set="address" position="replace"/>
 
-             <!-- remove default document title -->
-<!--            <t t-set='layout_document_title' position="replace">-->
-<!--            </t>-->
-
 <!--             remove default document title -->
             <t t-set='layout_document_title' position="replace">
-               <div id="l10n_ar_informations">
-                    <t t-if="o.partner_ref">
-<!--                        <br/><strong>Your Order Reference:</strong>-->
-<!--                        <span t-field="o.partner_ref"/>-->
-                    </t>
-               </div>
             </t>
+
+
+            <div id="informations" position="replace">
+               <div id="l10n_ar_informations">
+                   <t t-if="o.partner_ref">
+                               <!-- <br/><strong>Your Order Reference:</strong>
+                               <span t-field="o.partner_ref"/> -->
+                   </t>
+               </div>
+            </div>
 
         </template>
 
-        <template id="l10n_ar_purchase_stock.report_purchasequotation_document" inherit_id="l10n_ar_purchase.report_purchasequotation_document">
+        <template id="l10n_ar_purchase_stock.report_purchaseorder_document" inherit_id="l10n_ar_purchase.report_purchaseorder_document">
             <div>
                 <!-- vacio -->
             </div>
         </template>
 
-
-
     </data>
+
 </odoo>

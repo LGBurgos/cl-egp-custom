@@ -157,12 +157,22 @@
                     <div style="font-family:sans-serif;">
                         <table class="o_has_total_table table o_main_table table-borderless" style="border-collapse: separate; border-spacing: 0 8px; width: 100%;">
                             <thead>
-                                <tr style="border: 1px solid #dee2e6; border-radius: 6px;">
-                                    <th class="text-end" style="width: 4%; padding: 4px;"><strong>Cant.</strong></th>
-                                    <th class="text-start" style="width: 13%; padding: 4px;"><strong>Código</strong></th>
-                                    <th class="text-start" style="width: 68%; padding: 4px;"><strong>Descripción</strong></th>
-                                    <th class="text-start" style="width: 8%; padding: 4px;"><strong>Unit.</strong></th>
-                                    <th class="text-start" style="width: 7%; padding: 4px;"><strong>Total</strong></th>
+                                <tr>
+                                    <th class="text-end" style="width: 4%; padding: 8px 0;">
+                                        <strong>Cant.</strong>
+                                    </th>
+                                    <th class="text-start" style="width: 13%; padding: 8px 0;">
+                                        <strong>Código</strong>
+                                    </th>
+                                    <th class="text-start" style="width: 68%; padding: 8px 0;">
+                                        <strong>Descripción</strong>
+                                    </th>
+                                    <th class="text-end" style="width: 8%; padding: 8px 0;">
+                                        <strong>Unit.</strong>
+                                    </th>
+                                    <th class="text-end" style="width: 7%; padding: 8px 0;">
+                                        <strong>Total</strong>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>

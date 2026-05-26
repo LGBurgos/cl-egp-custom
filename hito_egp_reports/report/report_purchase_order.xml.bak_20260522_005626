@@ -157,12 +157,14 @@
                     <div style="font-family:sans-serif;">
                         <table class="o_has_total_table table o_main_table table-borderless" style="border-collapse: separate; border-spacing: 0 8px; width: 100%;">
                             <thead>
-                                <tr style="border: 1px solid #dee2e6; border-radius: 6px;">
-                                    <th class="text-end" style="width: 4%; padding: 4px;"><strong>Cant.</strong></th>
-                                    <th class="text-start" style="width: 13%; padding: 4px;"><strong>Código</strong></th>
-                                    <th class="text-start" style="width: 68%; padding: 4px;"><strong>Descripción</strong></th>
-                                    <th class="text-start" style="width: 8%; padding: 4px;"><strong>Unit.</strong></th>
-                                    <th class="text-start" style="width: 7%; padding: 4px;"><strong>Total</strong></th>
+                                <tr>
+                                    <div class="row border" style="width:100%; display:inline-block;  border-radius:6px;">
+                                        <strong><span>Cant.</span></strong>
+                                        <strong><span style="margin-left: 30px;">Código</span></strong>
+                                        <strong><span style="margin-left: 250px;">Descripción</span></strong>
+                                        <strong><span style="margin-left: 180px;">Unit.</span></strong>
+                                        <strong><span style="margin-left: 100px;">Total</span></strong>
+                                    </div>
                                 </tr>
                             </thead>
                             <tbody>
